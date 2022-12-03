@@ -15,16 +15,17 @@ export class UserService {
     const userEntityCreated = this.userRepository.create(data);
     return this.userRepository.save(userEntityCreated);
   }
-  async updateUserService(data: UpdateUserDto): Promise<UserEntity> {
-    await this.userRepository.update(data.id, data);
-    const userUpdated = await this.getUserById(data.id);
+  async updateUserService(
+    userId: string,
+    userData: UpdateUserDto,
+  ): Promise<UserEntity> {
+    await this.userRepository.update(userId, userData);
+    const userUpdated = await this.getUserById(userId);
     return userUpdated;
   }
 
   async getUserById(userId: string): Promise<UserEntity> {
-    const userFound = await this.userRepository.findOne({
-      where: { id: userId },
-    });
+    const userFound = await this.userRepository.findOneBy({ id: userId });
     return userFound;
   }
 
@@ -33,8 +34,12 @@ export class UserService {
     return allUsers;
   }
 
-  async deleteUserService(userId: string): Promise<string> {
-    await this.userRepository.delete(userId);
-    return 'User deletado com sucesso!';
+  async deleteUserService(userId: string): Promise<boolean> {
+    const userExists = await this.userRepository.delete(userId);
+    if (userExists) {
+      return true;
+    } else {
+      return false;
+    }
   }
 }
