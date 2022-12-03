@@ -1,0 +1,22 @@
+<mxfile host="65bd71144e">
+    <diagram id="EDxq3SYH4aW6iHuROYLB" name="Página-1">
+        <mxGraphModel dx="736" dy="566" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="4" style="edgeStyle=none;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="2" target="3">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="2" value="&lt;p style=&quot;line-height: 0.5&quot;&gt;USER ENTITY&lt;/p&gt;&lt;p style=&quot;line-height: 0.5&quot;&gt;&lt;br&gt;&lt;/p&gt;&lt;p style=&quot;line-height: 0.5&quot;&gt;id&lt;/p&gt;&lt;p style=&quot;line-height: 0.5&quot;&gt;name&lt;/p&gt;&lt;p style=&quot;line-height: 0.5&quot;&gt;email&lt;/p&gt;&lt;p style=&quot;line-height: 0.5&quot;&gt;password&lt;/p&gt;&lt;p style=&quot;line-height: 0.5&quot;&gt;cpf&lt;/p&gt;" style="rounded=0;whiteSpace=wrap;html=1;align=center;" vertex="1" parent="1">
+                    <mxGeometry x="47" y="133" width="114" height="200" as="geometry"/>
+                </mxCell>
+                <mxCell id="3" value="MOVIES ENTITY&lt;br&gt;&lt;br&gt;id&lt;br&gt;title&lt;br&gt;description&lt;br&gt;releaseYear" style="whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="308" y="133" width="120" height="200" as="geometry"/>
+                </mxCell>
+                <mxCell id="5" value="1:N" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+                    <mxGeometry x="220" y="211" width="29" height="18" as="geometry"/>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+</mxfile>
