@@ -25,7 +25,7 @@ export class UserController {
   @Patch(':id')
   async updateUserController(
     @Body() userData: UpdateUserDto,
-    @Param('id', new ParseUUIDPipe()) userId: string,
+    @Param('id') userId: string,
   ): Promise<UserEntity> {
     return await this.userService.updateUserService(userData, userId);
   }

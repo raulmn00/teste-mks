@@ -15,11 +15,13 @@ export class UserRepository {
     const userCreated = await this.typeOrmRepository.save(userData);
     return userCreated;
   }
-  async updateUser(userData: UpdateUserDto): Promise<UserEntity> {
-    let userToUpdate = await this.getUserById(userData.id);
-    userToUpdate = Object.assign(userToUpdate, userData);
-    const userUpdated = await this.typeOrmRepository.save(userToUpdate);
-    return userUpdated;
+  async updateUser(
+    userData: UpdateUserDto,
+    idUser: string,
+  ): Promise<UserEntity> {
+    const userToUpdate = await this.getUserById(idUser);
+    this.typeOrmRepository.merge(userToUpdate, userData);
+    return await this.typeOrmRepository.save(userToUpdate);
   }
   async deleteUser(userId: string): Promise<boolean> {
     const userToDelete = await this.getUserById(userId);

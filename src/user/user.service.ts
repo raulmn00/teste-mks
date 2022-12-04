@@ -17,20 +17,20 @@ export class UserService {
   }
   async updateUserService(
     userData: UpdateUserDto,
-    userId: string,
+    idUser: string,
   ): Promise<UserEntity> {
-    await this.userRepository.updateUser(userData);
-    const userUpdated = await this.userRepository.getUserById(userId);
+    const userUpdated = await this.userRepository.updateUser(userData, idUser);
     return userUpdated;
   }
 
   async getUserById(userId: string): Promise<UserEntity> {
     const userFound = await this.userRepository.getUserById(userId);
+    delete userFound.userPassword;
     return userFound;
   }
 
   async getAllUsersService(): Promise<UserEntity[]> {
-    console.log('SERVICE');
+    //console.log('SERVICE');
     const allUsers = await this.userRepository.getAllUsersRepository();
     return allUsers;
   }
