@@ -18,7 +18,7 @@ export class UserController {
   constructor(private readonly userService: UserService) {}
 
   @Post()
-  async createUserController(@Body() body: CreateUserDto) {
+  async createUserController(@Body() body: CreateUserDto): Promise<UserEntity> {
     return this.userService.createUserService(body);
   }
 
@@ -32,7 +32,7 @@ export class UserController {
 
   @Get()
   async getAllUsersController(): Promise<UserEntity[]> {
-    return await this.userService.getAllUsers();
+    return await this.userService.getAllUsersService();
   }
   @Get(':id')
   async getUserByIdController(

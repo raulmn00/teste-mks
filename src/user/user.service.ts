@@ -3,12 +3,16 @@ import { UserEntity } from './entities/user.entity';
 import { CreateUserDto } from './dto/createUser.dto';
 import { UpdateUserDto } from './dto/updateUser.dto';
 import { UserRepository } from './repository/user.repository';
+import { hashSync } from 'bcrypt';
 
 @Injectable()
 export class UserService {
   constructor(private readonly userRepository: UserRepository) {}
   async createUserService(data: CreateUserDto): Promise<UserEntity> {
-    const userEntityCreated = this.userRepository.createUser(data);
+    data.userPassword = hashSync(data.userPassword, 10);
+
+    const userEntityCreated = await this.userRepository.createUser(data);
+
     return userEntityCreated;
   }
   async updateUserService(userData: UpdateUserDto): Promise<UserEntity> {
@@ -22,8 +26,9 @@ export class UserService {
     return userFound;
   }
 
-  async getAllUsers(): Promise<UserEntity[]> {
-    const allUsers = await this.userRepository.getAllUsers();
+  async getAllUsersService(): Promise<UserEntity[]> {
+    console.log('SERVICE');
+    const allUsers = await this.userRepository.getAllUsersRepository();
     return allUsers;
   }
 

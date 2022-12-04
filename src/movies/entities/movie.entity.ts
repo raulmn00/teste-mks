@@ -47,7 +47,6 @@ export class MovieEntity {
   @IsString()
   deletedAt: string;
 
-  /*
   @ManyToOne(() => UserEntity, (userId) => userId.movies)
-  createdByUser: UserEntity;*/
+  createdByUser: UserEntity;
 }

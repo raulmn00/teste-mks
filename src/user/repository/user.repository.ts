@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateUserDto } from '../dto/createUser.dto';
 import { UpdateUserDto } from '../dto/updateUser.dto';
@@ -6,19 +7,36 @@ import { UserEntity } from '../entities/user.entity';
 
 @Injectable()
 export class UserRepository {
-  createUser(userData: CreateUserDto): Promise<UserEntity> {
-    return null;
+  constructor(
+    @InjectRepository(UserEntity)
+    private readonly typeOrmRepository: Repository<UserEntity>,
+  ) {}
+  async createUser(userData: CreateUserDto): Promise<UserEntity> {
+    const userCreated = await this.typeOrmRepository.save(userData);
+    return userCreated;
   }
-  updateUser(userData: UpdateUserDto): Promise<UserEntity> {
-    return null;
+  async updateUser(userData: UpdateUserDto): Promise<UserEntity> {
+    let userToUpdate = await this.getUserById(userData.id);
+    userToUpdate = Object.assign(userToUpdate, userData);
+    const userUpdated = await this.typeOrmRepository.save(userToUpdate);
+    return userUpdated;
   }
-  deleteUser(userId: string): Promise<boolean> {
-    return null;
+  async deleteUser(userId: string): Promise<boolean> {
+    const userToDelete = await this.getUserById(userId);
+    if (!userToDelete) {
+      throw new Error('Usuário não encontrado.');
+    }
+    await this.typeOrmRepository.delete(userId);
+    return true;
   }
-  getUserById(userId: string): Promise<UserEntity> {
-    return null;
+  async getUserById(userId: string): Promise<UserEntity> {
+    const userFound = await this.typeOrmRepository.findOneBy({ id: userId });
+    return userFound;
   }
-  getAllUsers(): Promise<UserEntity[]> {
-    return null;
+  async getAllUsersRepository(): Promise<UserEntity[]> {
+    const allUsers = await this.typeOrmRepository.find({
+      relations: { movies: true },
+    });
+    return allUsers;
   }
 }

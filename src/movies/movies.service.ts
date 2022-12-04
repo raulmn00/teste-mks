@@ -1,42 +1,35 @@
 import { Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { UserEntity } from 'src/user/entities/user.entity';
-import { Repository } from 'typeorm';
 import { CreateMovieDto } from './dto/create-movie.dto';
 import { UpdateMovieDto } from './dto/update-movie.dto';
 import { MovieEntity } from './entities/movie.entity';
+import { MovieRepository } from './repository/movie.repository';
 
 @Injectable()
 export class MoviesService {
-  constructor(
-    @InjectRepository(MovieEntity)
-    private readonly movieRepository: Repository<MovieEntity>,
-  ) {}
+  constructor(private readonly movieRepository: MovieRepository) {}
   async createMovieService(movieData: CreateMovieDto): Promise<MovieEntity> {
-    const movieCreated = this.movieRepository.create(movieData);
-    return this.movieRepository.save(movieCreated);
+    const movieCreated = this.movieRepository.createMovie(movieData);
+    return movieCreated;
   }
 
   async findAll(): Promise<MovieEntity[]> {
-    const allMovies = await this.movieRepository.find({
-      select: ['id', 'movieTitle', 'movieDescription', 'releaseYear'],
-    });
+    const allMovies = await this.movieRepository.getAllMovies();
     return allMovies;
   }
 
   async findOne(movieId: string): Promise<MovieEntity> {
-    const movieFound = await this.movieRepository.findOneBy({ id: movieId });
+    const movieFound = await this.movieRepository.getMovieById(movieId);
     return movieFound;
   }
 
-  async update(id: string, movieData: UpdateMovieDto): Promise<MovieEntity> {
-    await this.movieRepository.update(id, movieData);
-    const movieUpdated = await this.findOne(id);
+  async update(movieData: UpdateMovieDto): Promise<MovieEntity> {
+    await this.movieRepository.updateMovie(movieData);
+    const movieUpdated = await this.findOne(movieData.id);
     return movieUpdated;
   }
 
   async remove(id: string): Promise<boolean> {
-    const movieExists = await this.movieRepository.delete(id);
+    const movieExists = await this.movieRepository.deleteMovie(id);
     if (movieExists) {
       return true;
     } else {
