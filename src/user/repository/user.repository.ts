@@ -48,4 +48,14 @@ export class UserRepository {
     });
     return allUsers;
   }
+  async getOneUserOrFail(userEmail: string): Promise<UserEntity> {
+    try {
+      const user = await this.typeOrmRepository.findOne({
+        where: { userEmail: userEmail },
+      });
+      return user;
+    } catch (err) {
+      throw new Error('User not found.');
+    }
+  }
 }

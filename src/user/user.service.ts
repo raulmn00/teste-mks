@@ -29,6 +29,11 @@ export class UserService {
     return userFound;
   }
 
+  async getOneUserOrFail(userEmail: string): Promise<UserEntity> {
+    const user = await this.userRepository.getOneUserOrFail(userEmail);
+    return user;
+  }
+
   async getAllUsersService(): Promise<UserEntity[]> {
     //console.log('SERVICE');
     const allUsers = await this.userRepository.getAllUsersRepository();
