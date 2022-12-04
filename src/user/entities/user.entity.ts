@@ -61,6 +61,6 @@ export class UserEntity {
     this.userPassword = hashSync(this.userPassword, 10);
   }
 
-  @OneToMany(() => Movie, (movies) => movies.userId)
+  @OneToMany(() => Movie, (movies) => movies.createdByUser)
   movies: Movie[];
 }

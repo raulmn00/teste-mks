@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { UserEntity } from 'src/user/user.entity';
+import { UserEntity } from 'src/user/entities/user.entity';
 import { Repository } from 'typeorm';
 import { CreateMovieDto } from './dto/create-movie.dto';
 import { UpdateMovieDto } from './dto/update-movie.dto';
@@ -11,21 +11,22 @@ export class MoviesService {
   constructor(
     @InjectRepository(Movie)
     private readonly movieRepository: Repository<Movie>,
-    @InjectRepository(UserEntity)
-    private readonly userRepository: Repository<UserEntity>,
   ) {}
   async createMovieService(movieData: CreateMovieDto): Promise<Movie> {
-    const user = await this.userRepository.findOneBy({
-      id: movieData.createdByUser.id,
-    });
     const movieCreated = this.movieRepository.create(movieData);
-    movieCreated.userId = user;
     return this.movieRepository.save(movieCreated);
   }
 
   async findAll(): Promise<Movie[]> {
     const allMovies = await this.movieRepository.find({
-      relations: { userId: true },
+      relations: { createdByUser: true },
+      select: [
+        'id',
+        'movieTitle',
+        'movieDescription',
+        'releaseYear',
+        'createdByUser',
+      ],
     });
     return allMovies;
   }
