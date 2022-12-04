@@ -13,7 +13,11 @@ export class UserRepository {
   ) {}
   async createUser(userData: CreateUserDto): Promise<UserEntity> {
     const userCreated = await this.typeOrmRepository.save(userData);
-    return userCreated;
+    if (!userCreated) {
+      throw new Error('Erro ao criar usuario.');
+    } else {
+      return userCreated;
+    }
   }
   async updateUser(
     userData: UpdateUserDto,
@@ -28,7 +32,7 @@ export class UserRepository {
     if (!userToDelete) {
       throw new Error('Usuário não encontrado.');
     }
-    await this.typeOrmRepository.delete(userId);
+    await this.typeOrmRepository.softDelete(userId);
     return true;
   }
   async getUserById(userId: string): Promise<UserEntity> {

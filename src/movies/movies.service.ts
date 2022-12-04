@@ -22,8 +22,11 @@ export class MoviesService {
     return movieFound;
   }
 
-  async update(movieData: UpdateMovieDto): Promise<MovieEntity> {
-    await this.movieRepository.updateMovie(movieData);
+  async update(
+    movieData: UpdateMovieDto,
+    idMovie: string,
+  ): Promise<MovieEntity> {
+    await this.movieRepository.updateMovie(movieData, idMovie);
     const movieUpdated = await this.findOne(movieData.id);
     return movieUpdated;
   }

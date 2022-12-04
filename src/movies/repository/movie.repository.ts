@@ -12,24 +12,37 @@ export class MovieRepository {
     private readonly typeOrmRepository: Repository<MovieEntity>,
   ) {}
   async createMovie(movieData: CreateMovieDto): Promise<MovieEntity> {
-    const movieCreated = await this.typeOrmRepository.create(movieData);
+    const movieCreated = await this.typeOrmRepository.save(movieData);
     if (!movieCreated) {
       throw new Error('Erro ao criar o filme.');
     } else {
-      await this.typeOrmRepository.save(movieCreated);
       return movieCreated;
     }
   }
-  updateMovie(userData: UpdateMovieDto): Promise<MovieEntity> {
-    return null;
+  async updateMovie(
+    movieData: UpdateMovieDto,
+    idMovie: string,
+  ): Promise<MovieEntity> {
+    const movieToUpdate = await this.getMovieById(idMovie);
+    this.typeOrmRepository.merge(movieToUpdate, movieData);
+    return await this.typeOrmRepository.save(movieToUpdate);
   }
 
-  deleteMovie(userId: string): Promise<MovieEntity> {
-    return null;
+  async deleteMovie(movieId: string): Promise<boolean> {
+    const movieToDelete = await this.getMovieById(movieId);
+    if (!movieToDelete) {
+      throw new Error('Filme não encontrado.');
+    }
+    await this.typeOrmRepository.softDelete(movieId);
+    return true;
   }
 
-  getMovieById(userId: string): Promise<MovieEntity> {
-    return null;
+  async getMovieById(movieId: string): Promise<MovieEntity> {
+    const movieFound = await this.typeOrmRepository.findOne({
+      where: { id: movieId },
+      relations: { createdByUser: true },
+    });
+    return movieFound;
   }
   async getAllMovies(): Promise<MovieEntity[]> {
     const allMovies = await this.typeOrmRepository.find({
