@@ -30,7 +30,10 @@ export class UserRepository {
     return true;
   }
   async getUserById(userId: string): Promise<UserEntity> {
-    const userFound = await this.typeOrmRepository.findOneBy({ id: userId });
+    const userFound = await this.typeOrmRepository.findOne({
+      where: { id: userId },
+      relations: { movies: true },
+    });
     return userFound;
   }
   async getAllUsersRepository(): Promise<UserEntity[]> {

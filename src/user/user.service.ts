@@ -15,9 +15,12 @@ export class UserService {
 
     return userEntityCreated;
   }
-  async updateUserService(userData: UpdateUserDto): Promise<UserEntity> {
+  async updateUserService(
+    userData: UpdateUserDto,
+    userId: string,
+  ): Promise<UserEntity> {
     await this.userRepository.updateUser(userData);
-    const userUpdated = await this.userRepository.getUserById(userData.id);
+    const userUpdated = await this.userRepository.getUserById(userId);
     return userUpdated;
   }
 

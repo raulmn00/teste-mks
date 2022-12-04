@@ -6,6 +6,7 @@ import {
   UpdateDateColumn,
   DeleteDateColumn,
   ManyToOne,
+  JoinColumn,
 } from 'typeorm';
 
 import { ApiProperty } from '@nestjs/swagger';
@@ -47,6 +48,7 @@ export class MovieEntity {
   @IsString()
   deletedAt: string;
 
-  @ManyToOne(() => UserEntity, (userId) => userId.movies)
+  @ManyToOne(() => UserEntity, (user) => user.movies)
+  @JoinColumn({ name: 'users' })
   createdByUser: UserEntity;
 }

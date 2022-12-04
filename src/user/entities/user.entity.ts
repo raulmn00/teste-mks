@@ -7,6 +7,8 @@ import {
   DeleteDateColumn,
   BeforeInsert,
   OneToMany,
+  ManyToOne,
+  JoinColumn,
 } from 'typeorm';
 import { hashSync } from 'bcrypt';
 
@@ -61,6 +63,7 @@ export class UserEntity {
     this.userPassword = hashSync(this.userPassword, 10);
   }
 
-  @OneToMany(() => MovieEntity, (movies) => movies)
+  @OneToMany(() => MovieEntity, (movies) => movies.createdByUser)
+  @JoinColumn({ name: 'movies' })
   movies: MovieEntity[];
 }
