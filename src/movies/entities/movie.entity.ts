@@ -11,6 +11,7 @@ import {
 import { ApiProperty } from '@nestjs/swagger';
 import { IsString } from '@nestjs/class-validator';
 import { UserEntity } from 'src/user/user.entity';
+
 @Entity({ name: 'movies' })
 export class Movie {
   @PrimaryGeneratedColumn('uuid')
@@ -46,6 +47,6 @@ export class Movie {
   @IsString()
   deletedAt: string;
 
-  @ManyToOne(() => UserEntity, (user) => user.movies)
-  user: UserEntity;
+  @ManyToOne(() => UserEntity, (userId) => userId.movies)
+  userId: UserEntity;
 }

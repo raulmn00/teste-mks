@@ -25,7 +25,10 @@ export class UserService {
   }
 
   async getUserById(userId: string): Promise<UserEntity> {
-    const userFound = await this.userRepository.findOneBy({ id: userId });
+    const userFound = await this.userRepository.findOne({
+      where: { id: userId },
+      relations: { movies: true },
+    });
     return userFound;
   }
 

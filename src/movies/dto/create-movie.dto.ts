@@ -1,4 +1,5 @@
 import { IsNotEmpty } from 'class-validator';
+import { UserEntity } from 'src/user/user.entity';
 export class CreateMovieDto {
   @IsNotEmpty()
   movieTitle: string;
@@ -10,5 +11,5 @@ export class CreateMovieDto {
   releaseYear: number;
 
   @IsNotEmpty()
-  createdByUserId: string;
+  createdByUser: UserEntity;
 }
