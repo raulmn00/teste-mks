@@ -15,6 +15,7 @@ import { UserEntity } from 'src/user/user.entity';
 export class Movie {
   @PrimaryGeneratedColumn('uuid')
   id: string;
+
   @Column({ name: 'movie_title', nullable: false })
   @ApiProperty()
   @IsString()
