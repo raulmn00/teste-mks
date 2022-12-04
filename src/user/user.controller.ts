@@ -4,6 +4,7 @@ import {
   Delete,
   Get,
   Param,
+  ParseUUIDPipe,
   Patch,
   Post,
 } from '@nestjs/common';
@@ -24,7 +25,7 @@ export class UserController {
   @Patch(':id')
   async updateUserController(
     @Body() userData: UpdateUserDto,
-    @Param('id') userId: string,
+    @Param('id', new ParseUUIDPipe()) userId: string,
   ): Promise<UserEntity> {
     return await this.userService.updateUserService(userId, userData);
   }
@@ -35,7 +36,7 @@ export class UserController {
   }
   @Get(':id')
   async getUserByIdController(
-    @Param('id') userId: string,
+    @Param('id', new ParseUUIDPipe()) userId: string,
   ): Promise<UserEntity> {
     return await this.userService.getUserById(userId);
   }

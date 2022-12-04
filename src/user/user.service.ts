@@ -30,7 +30,17 @@ export class UserService {
   }
 
   async getAllUsers(): Promise<UserEntity[]> {
-    const allUsers = await this.userRepository.find();
+    const allUsers = await this.userRepository.find({
+      select: [
+        'id',
+        'userName',
+        'userEmail',
+        'userCpf',
+        'createdAt',
+        'updatedAt',
+        'deletedAt',
+      ],
+    });
     return allUsers;
   }
 
