@@ -1,6 +1,6 @@
 import { IsNotEmpty, IsEmail, Matches } from 'class-validator';
 import { RegexHelper } from 'src/helpers/regex.helper';
-import { Movie } from 'src/movies/entities/movie.entity';
+import { MovieEntity } from 'src/movies/entities/movie.entity';
 
 export class CreateUserDto {
   @IsNotEmpty()
@@ -18,5 +18,5 @@ export class CreateUserDto {
   userCpf: string;
 
   @IsNotEmpty()
-  movies: Movie[] = [];
+  movies: MovieEntity[] = [];
 }

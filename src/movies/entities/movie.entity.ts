@@ -13,7 +13,7 @@ import { IsString } from '@nestjs/class-validator';
 import { UserEntity } from 'src/user/entities/user.entity';
 
 @Entity({ name: 'movies' })
-export class Movie {
+export class MovieEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
@@ -47,6 +47,7 @@ export class Movie {
   @IsString()
   deletedAt: string;
 
+  /*
   @ManyToOne(() => UserEntity, (userId) => userId.movies)
-  createdByUser: UserEntity;
+  createdByUser: UserEntity;*/
 }

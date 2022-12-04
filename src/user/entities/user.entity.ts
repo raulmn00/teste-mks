@@ -12,7 +12,7 @@ import { hashSync } from 'bcrypt';
 
 import { ApiProperty } from '@nestjs/swagger';
 import { IsString } from '@nestjs/class-validator';
-import { Movie } from 'src/movies/entities/movie.entity';
+import { MovieEntity } from 'src/movies/entities/movie.entity';
 import { Exclude } from 'class-transformer';
 
 @Entity({ name: 'users' })
@@ -61,6 +61,6 @@ export class UserEntity {
     this.userPassword = hashSync(this.userPassword, 10);
   }
 
-  @OneToMany(() => Movie, (movies) => movies.createdByUser)
-  movies: Movie[];
+  @OneToMany(() => MovieEntity, (movies) => movies)
+  movies: MovieEntity[];
 }
