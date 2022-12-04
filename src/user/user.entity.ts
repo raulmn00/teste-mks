@@ -5,7 +5,9 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
   DeleteDateColumn,
+  BeforeInsert,
 } from 'typeorm';
+import { hashSync } from 'bcrypt';
 
 import { ApiProperty } from '@nestjs/swagger';
 import { IsString } from '@nestjs/class-validator';
@@ -49,4 +51,9 @@ export class UserEntity {
   @ApiProperty()
   @IsString()
   deletedAt: string;
+
+  @BeforeInsert()
+  hashPassword() {
+    this.userPassword = hashSync(this.userPassword, 10);
+  }
 }
