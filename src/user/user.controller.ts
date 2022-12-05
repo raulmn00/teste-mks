@@ -45,7 +45,7 @@ export class UserController {
   }
   @Get(':id')
   async getUserByIdController(
-    @Param('id', new ParseUUIDPipe()) userId: string,
+    @Param('id') userId: string,
   ): Promise<UserEntity> {
     try {
       return await this.userService.getUserById(userId);
