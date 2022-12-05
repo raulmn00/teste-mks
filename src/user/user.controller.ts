@@ -13,6 +13,8 @@ import { UpdateUserDto } from './dto/updateUser.dto';
 import { UserEntity } from './entities/user.entity';
 import { UserService } from './user.service';
 import { handleException } from 'src/exceptions/exceptionsHelper';
+import { UseGuards } from '@nestjs/common';
+import { AuthGuard } from '@nestjs/passport';
 
 @Controller('user')
 export class UserController {
@@ -39,6 +41,7 @@ export class UserController {
     }
   }
 
+  @UseGuards(AuthGuard('jwt'))
   @Get()
   async getAllUsersController(): Promise<UserEntity[]> {
     return await this.userService.getAllUsersService();
