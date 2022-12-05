@@ -12,6 +12,7 @@ import { CreateUserDto } from './dto/createUser.dto';
 import { UpdateUserDto } from './dto/updateUser.dto';
 import { UserEntity } from './entities/user.entity';
 import { UserService } from './user.service';
+import { handleException } from 'src/exceptions/exceptionsHelper';
 
 @Controller('user')
 export class UserController {
@@ -19,7 +20,11 @@ export class UserController {
 
   @Post()
   async createUserController(@Body() body: CreateUserDto): Promise<UserEntity> {
-    return this.userService.createUserService(body);
+    try {
+      return this.userService.createUserService(body);
+    } catch (err) {
+      handleException(err);
+    }
   }
 
   @Patch(':id')
@@ -27,7 +32,11 @@ export class UserController {
     @Body() userData: UpdateUserDto,
     @Param('id') userId: string,
   ): Promise<UserEntity> {
-    return await this.userService.updateUserService(userData, userId);
+    try {
+      return await this.userService.updateUserService(userData, userId);
+    } catch (err) {
+      handleException(err);
+    }
   }
 
   @Get()
@@ -38,7 +47,11 @@ export class UserController {
   async getUserByIdController(
     @Param('id', new ParseUUIDPipe()) userId: string,
   ): Promise<UserEntity> {
-    return await this.userService.getUserById(userId);
+    try {
+      return await this.userService.getUserById(userId);
+    } catch (err) {
+      handleException(err);
+    }
   }
 
   @Delete(':id')

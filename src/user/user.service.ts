@@ -4,16 +4,23 @@ import { CreateUserDto } from './dto/createUser.dto';
 import { UpdateUserDto } from './dto/updateUser.dto';
 import { UserRepository } from './repository/user.repository';
 import { hashSync } from 'bcrypt';
+import { ExceptionClass } from 'src/exceptions/Exception';
+import { Exceptions } from 'src/exceptions/exceptionsHelper';
 
 @Injectable()
 export class UserService {
   constructor(private readonly userRepository: UserRepository) {}
   async createUserService(data: CreateUserDto): Promise<UserEntity> {
-    data.userPassword = hashSync(data.userPassword, 10);
-
-    const userEntityCreated = await this.userRepository.createUser(data);
-
-    return userEntityCreated;
+    try {
+      data.userPassword = hashSync(data.userPassword, 10);
+      const userEntityCreated = await this.userRepository.createUser(data);
+      return userEntityCreated;
+    } catch (err) {
+      throw new ExceptionClass(
+        Exceptions.InvalidData,
+        'Error creating user. Please verify the data sent.',
+      );
+    }
   }
   async updateUserService(
     userData: UpdateUserDto,
