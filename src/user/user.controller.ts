@@ -4,7 +4,6 @@ import {
   Delete,
   Get,
   Param,
-  ParseUUIDPipe,
   Patch,
   Post,
 } from '@nestjs/common';
@@ -28,7 +27,7 @@ export class UserController {
       handleException(err);
     }
   }
-
+  @UseGuards(AuthGuard('jwt'))
   @Patch(':id')
   async updateUserController(
     @Body() userData: UpdateUserDto,
@@ -46,6 +45,7 @@ export class UserController {
   async getAllUsersController(): Promise<UserEntity[]> {
     return await this.userService.getAllUsersService();
   }
+  @UseGuards(AuthGuard('jwt'))
   @Get(':id')
   async getUserByIdController(
     @Param('id') userId: string,
@@ -56,7 +56,7 @@ export class UserController {
       handleException(err);
     }
   }
-
+  @UseGuards(AuthGuard('jwt'))
   @Delete(':id')
   async deleteUserController(@Param('id') userId: string): Promise<string> {
     const userIsDeleted = await this.userService.deleteUserService(userId);
