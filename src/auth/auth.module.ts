@@ -13,7 +13,7 @@ import { JwtStrategy } from './strategies/jwt.strategy';
     UserModule,
     PassportModule,
     JwtModule.register({
-      privateKey: process.env.JWT_SECRET_KEY,
+      privateKey: 'batatinha',
       signOptions: { expiresIn: '1h' },
     }),
   ],
